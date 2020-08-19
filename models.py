@@ -1,8 +1,7 @@
 import sqlalchemy as sq
-from sqlalchemy import sql
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
-import psycopg2
+
 
 engine = sq.create_engine('postgresql+psycopg2://postgres:postgres@localhost:5439//Alchemy')
 Session = sessionmaker(bind=engine)
@@ -42,8 +41,8 @@ class Stock(Base):
 
 
 sale_stock = sq.Table('sale_stock', Base.metadata,
-                      sq.Column('sale_id', sq.Integer, sq.ForeignKey('Sale.id')),
-                      sq.Column('stock_id', sq.Integer, sq.ForeignKey('Stock.id'))
+                      sq.Column('sale_id', sq.Integer, sq.ForeignKey('sale.id')),
+                      sq.Column('stock_id', sq.Integer, sq.ForeignKey('stock.id'))
                       )
 
 
@@ -53,5 +52,5 @@ class Sale(Base):
     id = sq.Column(sq.Integer, primary_key=True)
     price = sq.Column(sq.Integer)
     date_sale = sq.Column(sq.Date)
-    id_stock = relationship('stock', secondary=sale_stock, back_populates='stocks')
+    id_stock = relationship('Stock', secondary=sale_stock, backref='sales')
     count = sq.Column(sq.Integer)
