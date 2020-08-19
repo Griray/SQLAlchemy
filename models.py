@@ -4,6 +4,7 @@ from sqlalchemy.orm import sessionmaker, relationship
 
 
 engine = sq.create_engine('postgresql+psycopg2://postgres:postgres@localhost:5439//Alchemy')
+connection = engine.connect()
 Session = sessionmaker(bind=engine)
 Session.configure(bind=engine)
 Base = declarative_base()
